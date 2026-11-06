@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 고급과정 7일차 자기소감</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:radial-gradient(ellipse at 20% 10%,#2b1055 0%,#0d0620 45%,#05030f 100%);
+    color:#eae6ff;min-height:100vh;padding:28px 18px;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+  header{text-align:center;margin-bottom:20px}
+  .badge{
+    display:inline-block;padding:6px 18px;border-radius:999px;font-size:13px;letter-spacing:2px;
+    border:1px solid #7b5cff;color:#b8a5ff;background:rgba(123,92,255,.12);margin-bottom:14px;
+  }
+  h1{
+    font-size:38px;font-weight:900;letter-spacing:-1px;
+    background:linear-gradient(92deg,#38bdf8,#8b5cf6,#22d3ee);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{margin-top:8px;color:#9f93c9;font-size:15px}
+
+  /* ===== 발표 컨트롤 ===== */
+  .ctrl{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 24px}
+  .btn{
+    font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;
+    padding:13px 30px;border-radius:999px;border:none;color:#fff;
+    background:linear-gradient(100deg,#38bdf8,#8b5cf6,#22d3ee);
+    box-shadow:0 0 26px rgba(56,189,248,.45);transition:.2s;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(56,189,248,.7)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{
+    background:transparent;border:1px solid rgba(180,150,255,.45);color:#c4b5fd;
+    box-shadow:none;padding:12px 22px;font-size:14px;
+  }
+  .btn.ghost:hover{background:rgba(139,92,246,.15);box-shadow:none}
+  .status{width:100%;text-align:center;font-size:13px;color:#9f93c9;margin-top:4px;min-height:18px}
+  .bar{width:100%;max-width:560px;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;
+    background:linear-gradient(90deg,#38bdf8,#22d3ee);transition:width .4s ease}
+
+  .grid{display:grid;grid-template-columns:330px 1fr;gap:22px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:rgba(255,255,255,.045);border:1px solid rgba(160,130,255,.25);
+    border-radius:20px;padding:22px;backdrop-filter:blur(6px);
+    box-shadow:0 0 42px rgba(110,70,220,.18);
+  }
+  .hero{text-align:center;position:sticky;top:20px}
+  .hero svg{width:100%;max-width:260px;filter:drop-shadow(0 0 16px rgba(56,189,248,.5))}
+  .name{margin-top:10px;font-size:19px;font-weight:800;color:#7dd3fc}
+  .role{font-size:12.5px;color:#9f93c9;margin-top:3px;letter-spacing:1px}
+  .bubble{
+    margin-top:16px;background:linear-gradient(135deg,rgba(56,189,248,.16),rgba(139,92,246,.14));
+    border:1px solid rgba(125,211,252,.4);border-radius:16px;padding:14px;
+    font-size:14px;line-height:1.75;text-align:left;transition:.3s;
+  }
+
+  .step{margin-bottom:16px;padding:10px 0 10px 16px;border-left:3px solid #8b5cf6;
+    border-radius:0 12px 12px 0;transition:.35s}
+  .step:last-child{margin-bottom:0}
+  .step h3{font-size:17px;font-weight:800;color:#c4b5fd;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .num{
+    width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;
+    background:linear-gradient(135deg,#38bdf8,#8b5cf6);color:#fff;flex:none;
+  }
+  .step p{font-size:14.5px;line-height:1.85;color:#ded8f5}
+  .step p+p{margin-top:7px}
+  em{color:#22d3ee;font-style:normal;font-weight:700}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tag{
+    font-size:12.5px;padding:5px 13px;border-radius:999px;
+    background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.35);color:#7fe6f7;
+  }
+  .closing{
+    margin-top:20px;padding:16px 18px;border-radius:16px;text-align:center;
+    background:linear-gradient(100deg,rgba(56,189,248,.18),rgba(139,92,246,.18),rgba(34,211,238,.15));
+    border:1px solid rgba(196,181,253,.35);font-size:15.5px;font-weight:700;line-height:1.7;
+    transition:.35s;
+  }
+
+  /* 현재 읽는 구간 */
+  .speaking{
+    background:rgba(139,92,246,.17);border-left-color:#22d3ee;
+    box-shadow:0 0 30px rgba(34,211,238,.25) inset;transform:translateX(4px);
+  }
+  .speaking h3{color:#7fe6f7}
+  .closing.speaking{transform:none;border-color:#22d3ee;box-shadow:0 0 34px rgba(34,211,238,.4)}
+  .bubble.speaking{border-color:#22d3ee;box-shadow:0 0 28px rgba(34,211,238,.35)}
+
+  footer{text-align:center;margin-top:24px;font-size:12.5px;color:#6f659a}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .float{animation:float 4s ease-in-out infinite}
+  @keyframes talk{0%,100%{transform:scaleY(1)}50%{transform:scaleY(2.2)}}
+  .talking #mouth{animation:talk .26s ease-in-out infinite;transform-origin:110px 155px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="badge">제주공공책연수원 · AI 고급과정 DAY 7</div>
+    <h1>상상으로 시작해, 자동화로 끝내다</h1>
+    <div class="sub">7일간의 AI 고급과정 자기소감 발표문</div>
+  </header>
+
+  <div class="ctrl">
+    <button class="btn" id="play">▶  자기 소감을 발표</button>
+    <button class="btn ghost" id="pause" disabled>⏸ 일시정지</button>
+    <button class="btn ghost" id="stop" disabled>■ 정지</button>
+    <div class="bar"><i id="prog"></i></div>
+    <div class="status" id="status">버튼을 누르면 성용이 소감을 끝까지 발표합니다.</div>
+  </div>
+
+  <div class="grid">
+    <div class="card hero" id="hero">
+      <svg class="float" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#15102b"/><stop offset="1" stop-color="#3f2d7a"/>
+          </linearGradient>
+          <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#16102c"/><stop offset="1" stop-color="#2d1f5c"/>
+          </linearGradient>
+          <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="110" cy="286" rx="72" ry="10" fill="#8b5cf6" opacity=".2"/>
+
+        <!-- 넓은 어깨 + 재킷 -->
+        <path d="M46 300 Q44 214 110 196 Q176 214 174 300 Z" fill="url(#suit)"/>
+        <!-- 어깨 장식 -->
+        <path d="M46 232 Q50 208 76 200 L82 224 Q60 230 52 246 Z" fill="#3b2a72"/>
+        <path d="M174 232 Q170 208 144 200 L138 224 Q160 230 168 246 Z" fill="#3b2a72"/>
+        <!-- 재킷 라펠 / 가슴 라인 -->
+        <path d="M110 196 L92 240 L110 258 L128 240 Z" fill="url(#glow)" opacity=".55"/>
+        <path d="M110 258 L104 300 L116 300 Z" fill="#22d3ee" opacity=".4"/>
+        <path d="M62 236 L54 288" stroke="#38bdf8" stroke-width="3" opacity=".85"/>
+        <path d="M158 236 L166 288" stroke="#8b5cf6" stroke-width="3" opacity=".85"/>
+
+        <!-- 목 -->
+        <path d="M96 164 L96 200 Q110 210 124 200 L124 164 Z" fill="#e8b894"/>
+        <path d="M96 176 Q110 192 124 176 L124 164 L96 164 Z" fill="#cf9d79"/>
+
+        <!-- 얼굴: 각진 턱선 -->
+        <path d="M66 112 Q66 66 110 64 Q154 66 154 112
+                 Q154 142 144 156 Q130 174 110 176
+                 Q90 174 76 156 Q66 142 66 112 Z" fill="#f2c9a8"/>
+
+        <!-- 짧은 언더컷 헤어 -->
+        <path d="M64 114 Q58 56 110 50 Q164 54 158 116
+                 Q154 96 148 86 Q128 76 108 80 Q86 82 72 94 Q66 102 64 114 Z" fill="url(#hair)"/>
+        <path d="M80 86 L92 62 L98 84 Z" fill="url(#hair)"/>
+        <path d="M100 82 L114 58 L118 82 Z" fill="url(#hair)"/>
+        <path d="M120 84 L136 66 L138 90 Z" fill="url(#hair)"/>
+        <path d="M70 100 Q78 84 94 78" stroke="#38bdf8" stroke-width="3" fill="none" opacity=".8" stroke-linecap="round"/>
+
+        <!-- 두꺼운 눈썹 -->
+        <path d="M82 110 L104 106" stroke="#2a1d4a" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M138 110 L116 106" stroke="#2a1d4a" stroke-width="5.5" stroke-linecap="round"/>
+
+        <!-- 눈 -->
+        <path d="M84 124 Q94 116 104 124 Q94 130 84 124 Z" fill="#fff"/>
+        <path d="M116 124 Q126 116 136 124 Q126 130 116 124 Z" fill="#fff"/>
+        <circle cx="94" cy="123" r="5.2" fill="#15233f"/>
+        <circle cx="126" cy="123" r="5.2" fill="#15233f"/>
+        <circle cx="95.8" cy="121" r="1.9" fill="#7dd3fc"/>
+        <circle cx="127.8" cy="121" r="1.9" fill="#7dd3fc"/>
+
+        <!-- 코 -->
+        <path d="M110 130 L106 144 L113 145" stroke="#d6a07c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+
+        <!-- 입 -->
+        <path id="mouth" d="M100 156 Q110 162 120 156" stroke="#9c4a3c" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+        <!-- 턱선 음영 -->
+        <path d="M78 152 Q110 180 142 152" stroke="#dcab86" stroke-width="2" fill="none" opacity=".6"/>
+
+        <!-- 헤드셋 -->
+        <path d="M68 108 Q110 68 152 108" stroke="url(#glow)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <rect x="58" y="104" width="13" height="24" rx="6" fill="#38bdf8"/>
+        <rect x="149" y="104" width="13" height="24" rx="6" fill="#8b5cf6"/>
+        <path d="M64 128 Q70 146 88 150" stroke="#38bdf8" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <circle cx="90" cy="151" r="3.4" fill="#22d3ee"/>
+
+        <text x="110" y="248" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle" font-family="sans-serif">AI</text>
+      </svg>
+      <div class="name">성용 (SEONGYONG)</div>
+      <div class="role">AUTOMATION HUNTER · DAY 7</div>
+      <div class="bubble" id="s0">
+        “7일 전, 당신은 <em>호기심</em> 하나로 이 문을 열었죠.<br>
+        오늘 당신은 <em>자기 한계</em>를 정확히 아는 사람이 되었습니다.<br>
+        그게 진짜 고급과정의 결과입니다.”
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step" id="s1">
+        <h3><span class="num">1</span>시작 — 호기심이 신청 버튼을 눌렀다</h3>
+        <p>“대체 뭘 배울 수 있을까?” 그 궁금증 하나로 신청했습니다. 그전까지 제 자동화 경험은 <em>엑셀 VBA</em>가 전부였고, AI는 <em>CLI</em>로 이것저것 만들어보는 수준이었습니다. 다만 이미지는 한 번도 다뤄본 적이 없었습니다.</p>
+      </div>
+
+      <div class="step" id="s2">
+        <h3><span class="num">2</span>마주침 — 안다고 생각한 건 착각이었다</h3>
+        <p>교육을 받으며 가장 먼저 깨진 건 <em>“나는 꽤 안다”</em>는 생각이었습니다. 회사가 제공하는 툴만 쓰다 보니, 그 울타리 밖으로 한 걸음도 나가본 적이 없었던 겁니다.</p>
+        <p>더 해봐야 한다는 건 알겠는데, 무엇을 가입하고 무엇을 써야 할지는 아직 생각만 많고 <em>결정하지 못했습니다</em>.</p>
+      </div>
+
+      <div class="step" id="s3">
+        <h3><span class="num">3</span>솔직한 고백 — 이미지는 아직 어렵습니다</h3>
+        <p>예술적 감각이 없어서인지 이미지 작업은 여전히 미숙합니다. 캐릭터를 만들어도 머릿속 그림과 너무 달라 마음에 들지 않더군요. 이건 다음 숙제로 남겨두겠습니다.</p>
+        <div class="tags">
+          <span class="tag">엑셀 VBA</span><span class="tag">AI CLI</span>
+          <span class="tag">이미지 생성</span><span class="tag">캐릭터 제작</span>
+        </div>
+      </div>
+
+      <div class="step" id="s4">
+        <h3><span class="num">4</span>다짐 — 울타리 밖으로 나가겠습니다</h3>
+        <p>이번 교육을 계기로 <em>유료 서비스에 가입</em>하고, <em>앱스크립트 · API 활용 · GitHub</em>를 본격적으로 써보려 합니다.</p>
+        <div class="tags">
+          <span class="tag">유료 구독</span><span class="tag">Apps Script</span>
+          <span class="tag">API 활용</span><span class="tag">GitHub</span><span class="tag">업무 자동화</span>
+        </div>
+      </div>
+
+      <div class="closing" id="s5">
+        제가 하는 일들을 하나씩 자동화해서<br>
+        업무 편의성을 더 높일 수 있겠다는 확신으로 마무리하겠습니다.<br>
+        <span style="font-size:13.5px;font-weight:500;color:#c4b5fd">7일간 감사했습니다.</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>제주공공책연수원 AI 고급과정 · 7일차 자기소감 발표</footer>
+</div>
+
+<script>
+const SCRIPT = [
+  { id:'s0', label:'오프닝', text:'안녕하세요. 제주공공책연수원 에이아이 고급과정, 7일차 자기소감 발표를 시작하겠습니다. 7일 전 저는 호기심 하나로 이 문을 열었고, 오늘은 제 한계를 정확히 아는 사람이 되었습니다.' },
+  { id:'s1', label:'1. 시작', text:'첫째, 시작입니다. 대체 뭘 배울 수 있을까. 그 궁금증 하나로 교육을 신청했습니다. 그전까지 제 자동화 경험은 엑셀 브이비에이가 전부였고, 에이아이는 씨엘아이로 이것저것 만들어보는 수준이었습니다. 다만 이미지는 한 번도 다뤄본 적이 없었습니다.' },
+  { id:'s2', label:'2. 마주침', text:'둘째, 마주침입니다. 교육을 받으며 가장 먼저 깨진 것은, 나는 꽤 많이 안다는 생각이었습니다. 역시 저의 착각이었습니다. 회사가 제공하는 툴만 쓰다 보니 그 울타리 밖으로는 한 걸음도 나가본 적이 없었던 것입니다. 더 많은 것을 해봐야 한다는 건 알겠는데, 무엇을 가입하고 무엇을 써야 할지는 아직 생각만 많고 결정하지 못했습니다.' },
+  { id:'s3', label:'3. 고백', text:'셋째, 솔직한 고백입니다. 예술적 감각이 없어서인지 이미지를 다루는 데는 여전히 미숙합니다. 캐릭터를 만들어도 생각했던 것과 너무 달라 마음에 들지 않았습니다. 이 부분은 다음 숙제로 남겨두겠습니다.' },
+  { id:'s4', label:'4. 다짐', text:'넷째, 다짐입니다. 이번 교육을 계기로 유료 서비스에 가입하고, 앱스크립트와 에이피아이 활용, 그리고 깃허브를 본격적으로 사용해보려 합니다.' },
+  { id:'s5', label:'마무리', text:'제가 하는 작업들을 하나씩 자동화해서 업무 편의성을 더 높일 수 있겠다는 확신으로 마무리하겠습니다. 7일간 감사했습니다.' }
+];
+
+const $ = id => document.getElementById(id);
+const playBtn=$('play'), pauseBtn=$('pause'), stopBtn=$('stop'),
+      statusEl=$('status'), prog=$('prog'), hero=$('hero');
+let idx=0, running=false;
+
+const synth = window.speechSynthesis;
+const supported = 'speechSynthesis' in window;
+if(!supported){
+  statusEl.textContent='이 브라우저는 음성 발표를 지원하지 않습니다. (Chrome / Edge 권장)';
+}
+
+/* 남성 음성 우선 선택 */
+function pickVoice(){
+  const vs = synth.getVoices();
+  const ko = vs.filter(v => v.lang && v.lang.toLowerCase().startsWith('ko'));
+  const male = ko.find(v => /male|남|injoon|gook|hyunsu|minsu/i.test(v.name) && !/female|여/i.test(v.name));
+  return male || ko[0] || null;
+}
+if(supported) synth.onvoiceschanged = pickVoice;
+
+function clearHL(){
+  document.querySelectorAll('.speaking').forEach(e=>e.classList.remove('speaking'));
+  hero.classList.remove('talking');
+}
+
+function speakAt(i){
+  if(i >= SCRIPT.length){ finish(); return; }
+  idx = i;
+  const part = SCRIPT[i];
+  clearHL();
+  const el = $(part.id);
+  el.classList.add('speaking');
+  hero.classList.add('talking');
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+  statusEl.textContent = `발표 중 · ${part.label}  (${i+1}/${SCRIPT.length})`;
+  prog.style.width = ((i)/SCRIPT.length*100)+'%';
+
+  const u = new SpeechSynthesisUtterance(part.text);
+  const v = pickVoice();
+  if(v) u.voice = v;
+  u.lang='ko-KR'; u.rate=0.96; u.pitch=0.78;
+  u.onend = () => { if(running) setTimeout(()=>speakAt(i+1), 420); };
+  u.onerror = () => { if(running) setTimeout(()=>speakAt(i+1), 420); };
+  synth.speak(u);
+}
+
+function finish(){
+  running=false; clearHL();
+  prog.style.width='100%';
+  statusEl.textContent='발표를 마쳤습니다. 감사합니다.';
+  playBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
+  playBtn.textContent='▶  다시 발표하기';
+}
+
+playBtn.onclick = () => {
+  if(!supported) return;
+  synth.cancel();
+  running=true; idx=0;
+  playBtn.disabled=true; pauseBtn.disabled=false; stopBtn.disabled=false;
+  pauseBtn.textContent='⏸ 일시정지';
+  speakAt(0);
+};
+
+pauseBtn.onclick = () => {
+  if(synth.paused){ synth.resume(); pauseBtn.textContent='⏸ 일시정지'; statusEl.textContent='발표 재개'; }
+  else { synth.pause(); pauseBtn.textContent='▶ 이어서'; statusEl.textContent='일시정지됨'; }
+};
+
+stopBtn.onclick = () => {
+  running=false; synth.cancel(); clearHL();
+  prog.style.width='0%';
+  statusEl.textContent='발표를 중단했습니다.';
+  playBtn.disabled=false; pauseBtn.disabled=true; stopBtn.disabled=true;
+  playBtn.textContent='▶  자기 소감을 발표';
+};
+
+window.addEventListener('beforeunload', ()=>synth.cancel());
+</script>
+</body>
+</html>
